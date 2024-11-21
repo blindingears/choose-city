@@ -1,14 +1,20 @@
 <div class="flex flex-col mx-[15%]">
-<div class="flex flex-auto mt-10 mb-4 mx-auto justify-center">
+  <div class="flex flex-auto mt-10 mb-4 mx-auto justify-center">
     <h1>Stadtauswahl</h1>
-</div>
+  </div>
 
-<form [formGroup]="cityForm" (ngSubmit)="submitForm()" class="w-2/3 mx-auto p-4 border rounded-md shadow-md space-y-4">
-    <label for="city" class="block text-gray-700 font-medium text-lg">Wähle eine Stadt:</label>
+  <form
+    [formGroup]="cityForm"
+    (ngSubmit)="submitForm()"
+    class="w-2/3 mx-auto p-4 border rounded-md shadow-md space-y-4"
+  >
+    <label for="city" class="block text-gray-700 font-medium text-lg"
+      >Wähle eine Stadt:</label
+    >
     <select
       id="city"
       formControlName="city"
-      class="block w-1/2 px-3 py-2 border rounded-md text-base focus:outline-none focus:ring focus:ring-blue-500"
+      class="block w-1/2 px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-500"
     >
       <option value="" disabled>-- Bitte wählen --</option>
       <option value="Berlin">Berlin</option>
@@ -19,41 +25,59 @@
       <option value="Cairo">Kairo</option>
       <option value="Delhi">Neu-Delhi</option>
     </select>
-  
+
     <div
       *ngIf="cityForm.get('city')?.invalid && cityForm.get('city')?.touched"
       class="text-red-500 text-sm flex items-center gap-2"
     >
-    <span class="material-icons" style="color: red;">error</span>
+      <span class="material-icons" style="color: red">error</span>
       Bitte wähle eine Stadt aus.
     </div>
-  
+
     <button
       type="submit"
       [disabled]="cityForm.invalid"
-      class="w-1/2 px-4 py-2 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
+      class="w-1/2 px-4 py-2 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-100 hover:text-black disabled:bg-gray-300 disabled:cursor-not-allowed transition duration-200"
     >
       Absenden
     </button>
 
-     <!-- Stadt-Daten anzeigen -->
-  <div *ngIf="cityData" class="city-data">
-    <h2>Daten der Stadt:</h2>
-    <ul>
-      <li><strong>Postleitzahl:</strong> {{ cityData['post code'] }}</li>
-      <li><strong>Land:</strong> {{ cityData['country'] }}</li>
-      <li><strong>Land Kürzel:</strong> {{ cityData['country abbreviation'] }}</li>
-      <li><strong>Bundesland:</strong> {{ cityData['places'][0]['state'] }}</li>
-      <li><strong>Bundesland Kürzel:</strong> {{ cityData['places'][0]['state abbreviation'] }}</li>
-    </ul>
+    <!-- Stadt-Daten anzeigen -->
+    <div *ngIf="cityData" class="city-data">
+      <h2>Daten der Stadt:</h2>
+      <ul>
+        <li>
+          <strong>Name:</strong> {{ cityData["places"][0]["place name"] }}
+        </li>
+        <li><strong>Postleitzahl:</strong> {{ cityData["post code"] }}</li>
+        <li><strong>Land:</strong> {{ cityData["country"] }}</li>
+        <li>
+          <strong>Land Kürzel:</strong> {{ cityData["country abbreviation"] }}
+        </li>
+        <li>
+          <strong>Bundesland:</strong> {{ cityData["places"][0]["state"] }}
+        </li>
+        <li>
+          <strong>Bundesland Kürzel:</strong>
+          {{ cityData["places"][0]["state abbreviation"] }}
+        </li>
+      </ul>
+    </div>
+  </form>
+
+  <!-- Ladeindikator -->
+  <div
+    *ngIf="isLoading"
+    class="flex mt-4 justify-center text-green-800 font-medium text-base"
+  >
+    Lade Daten...
   </div>
 
-  </form>
-  
-  <!-- Ladeindikator -->
-  <div *ngIf="isLoading" class="flex mt-4 justify-center text-green-800 font-medium text-base">Lade Daten...</div>
-  
   <!-- Fehlermeldung -->
-  <div *ngIf="error" class="flex mt-4 justify-center mx-[30%] py-2 text-red-500 font-medium text-base border border-solid rounded-md border-red-500 bg-red-100">{{ error }}</div>
-  
+  <div
+    *ngIf="error"
+    class="flex mt-4 justify-center mx-[30%] py-2 text-red-500 font-medium text-base border border-solid rounded-md border-red-500 bg-red-100"
+  >
+    {{ error }}
+  </div>
 </div>
